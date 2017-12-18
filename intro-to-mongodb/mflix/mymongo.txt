@@ -1,0 +1,2 @@
+cluster = mflix-shard-0
+seed_list = mflix-shard-00-00-uxwrx.mongodb.net:27017,mflix-shard-00-01-uxwrx.mongodb.net:27017,mflix-shard-00-02-uxwrx.mongodb.net:27017
