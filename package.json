@@ -1,0 +1,26 @@
+{
+  "name": "mongodb-analytics",
+  "version": "1.0.0",
+  "description": "Mongod DB analytics course.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bladefidz/mongodb-analytics.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bladefidz/mongodb-analytics/issues"
+  },
+  "homepage": "https://github.com/Bladefidz/mongodb-analytics#readme",
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}

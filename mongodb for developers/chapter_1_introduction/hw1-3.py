@@ -28,7 +28,7 @@ def get_hw1(n):
         for item in iter:
             return str(int(item['value'])) + "\n"
     except Exception as e:
-        print "Error trying to read collection:", type(e), e
+        print("Error trying to read collection:", type(e), e)
 
 
 bottle.debug(True)

@@ -25,7 +25,7 @@ try:
             magic = magic + item['value']
 
 except Exception as e:
-    print "Error trying to read collection:", type(e), e
+    print("Error trying to read collection:", type(e), e)
 
 
-print "The answer to Homework One, Problem 2 is " + str(int(magic))
+print("The answer to Homework One, Problem 2 is " + str(int(magic)))
