@@ -99,3 +99,12 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Node
+node_modules/
+.eslintrc.json
+package.json
+package-lock.json
+
+# Visual studio code
+.vscode/
