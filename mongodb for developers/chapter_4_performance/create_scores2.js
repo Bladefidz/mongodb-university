@@ -2,7 +2,7 @@ db=db.getSiblingDB("school");
 db.students.drop();
 types = ['exam', 'quiz', 'homework', 'homework'];
 // 1 million students
-for (i = 0; i < 1000000; i++) {
+for (i = 0; i < 100000; i++) {
     // take 10 classes
     for (class_counter = 0; class_counter < 10; class_counter ++) {
 		scores = []
