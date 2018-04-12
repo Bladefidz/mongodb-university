@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Bladefidz/mongodb-analytics.git"
   },
-  "author": "",
+  "author": "hafidz jazuli luthfi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Bladefidz/mongodb-analytics/issues"
@@ -22,5 +22,13 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1"
-  }
+  },
+  "dependencies": {
+    "mongodb": "^3.0.5",
+    "npm": "^5.8.0"
+  },
+  "keywords": [
+    "mongodb",
+    "analytics"
+  ]
 }

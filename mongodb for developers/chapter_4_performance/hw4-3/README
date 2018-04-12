@@ -1,0 +1,23 @@
+To check whether you have added the right index on the posts collection, run
+ python validate.py
+You might want to look at the blog code to see what queries it does to the posts collection. they need
+to be fast.
+
+Manifest:
+
+stuff to run the blog:
+ views/*.tpl
+ blog.py 
+ userDAO.py
+ sessionDAO.py
+ blogPostDAO.py
+
+data that needs to be imported:
+ posts.json
+
+validationscript:
+ validate.py
+
+scripts_to_create_posts
+ creates a corpus of posts. 
+ 

@@ -108,3 +108,6 @@ package-lock.json
 
 # Visual studio code
 .vscode/
+
+# Dolphin
+.directory
