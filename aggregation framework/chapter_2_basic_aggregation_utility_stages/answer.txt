@@ -1,0 +1,145 @@
+// Lab 1
+// For movies released in the USA with a tomatoes.viewer.rating greater than or equal to 3, calculate a new field called num_favs that represets how many favorites appear in the cast field of the movie.
+// Sort your results by num_favs, tomatoes.viewer.rating, and title, all in descending order.
+// What is the title of the 25th film in the aggregation result?
+var favorites = [
+    "Sandra Bullock",
+    "Tom Hanks",
+    "Julia Roberts",
+    "Kevin Spacey",
+    "George Clooney"
+]
+// Test 1
+db.movies.aggregate([
+    {
+        $match: {
+            cast: {
+                $elemMatch: { $exists: true }
+            }
+        }
+    },
+    {
+        $project: {
+            cast: 1,
+            cast_in_favs: {
+                $setIntersection: ['$cast', favorites]
+            }
+        }
+    }
+])
+// End Test 1
+// Test 2
+db.movies.aggregate([
+    {
+        $match: {
+            cast: {
+                $elemMatch: { $exists: true }
+            }
+        }
+    },
+    {
+        $project: {
+            cast: 1,
+            num_favs : {
+                $size: {
+                    $setIntersection: ['$cast', favorites]
+                }
+            }
+        }
+    },
+    {
+        $sort : {
+            num_favs: -1
+        }
+    }
+])
+// End Test 2
+var pipeline = [
+    {
+        $match: {
+            cast: {
+                $elemMatch: { $exists: true }
+            },
+            countries: 'USA',
+            'tomatoes.viewer.rating': {$gte: 3}
+        }
+    },
+    {
+        $project: {
+            num_favs : {
+                $size: {
+                    $setIntersection: ['$cast', favorites]
+                }
+            },
+            'tomatoes.viewer.rating': 1,
+            title: 1,
+            countries: 1
+        }
+    },
+    {
+        $sort : {
+            num_favs: -1,
+            'tomatoes.viewer.rating': -1,
+            title: -1
+        }
+    }
+]
+
+// Lab 2
+// Calculate an average rating for each movie in our collection where English is an available language, the minimum imdb.rating is at least 1, the minimum imdb.votes is at least 1, and it was released in 1990 or after. You'll be required to rescale (or normalize) imdb.votes. The formula to rescale imdb.votes and calculate normalized_rating is included as a handout (scaling.js).
+// What film has the lowest normalized_rating?
+x_max = 1521105
+x_min = 5
+min = 1
+max = 10
+range = x_max - x_min
+var pipeline = [
+    {
+        $match: {
+            languages: 'English',
+            'imdb.rating': {$gte: 1},
+            'imdb.votes': {$gte: 1},
+            year: {$gte: 1990}
+        }
+    },
+    {
+        $project: {
+            title: 1,
+            scaled_votes: {
+                $add: [
+                    1,
+                    {
+                        $multiply: [
+                            9,
+                            {
+                                $divide: [{
+                                    $subtract: [
+                                        "$imdb.votes",
+                                        x_min
+                                    ]},
+                                    range
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            'imdb.rating': 1
+        }
+    },
+    {
+        $group: {
+            _id: "$title",
+            normalized_rating: {
+                $avg: {
+                    $add: ["$scaled_votes", "$imdb.rating"]
+                }
+            }
+        }
+    },
+    {
+        $sort: {
+            normalized_rating: 1
+        }
+    }
+]
