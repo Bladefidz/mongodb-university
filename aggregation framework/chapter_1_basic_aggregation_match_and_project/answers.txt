@@ -1,0 +1,97 @@
+// Lab 1
+var pipeline = [{
+    $match: {
+        'imdb.rating': {$gte: 7.0},
+        'genres': {$nin: ['Crime', 'Horror']},
+        'rated': {$in: ['PG', 'G']},
+        'languages': {$all: ['English', 'Japanese']}
+    }
+}]
+
+// Lab 2
+var pipeline = [{
+    $match: {
+        'imdb.rating': {$gte: 7.0},
+        'genres': {$nin: ['Crime', 'Horror']},
+        'rated': {$in: ['PG', 'G']},
+        'languages': {$all: ['English', 'Japanese']}
+    }
+},{
+    $project: {
+        '_id': 0,
+        'title': 1,
+        'rated': 1
+    }
+}]
+
+// Lab 3
+var pipeline = [
+    {
+        $project: {
+            firstTitleWord: {
+                $filter: {
+                    input: { $split: ["$title", " "] },
+                    as: "titleWords",
+                    cond: { $eq: [ { $size: "$$titleWords" }, 1 ] }
+                }
+            }
+        }
+    }
+]
+var pipeline = [
+    {
+        $project: {
+            title: 1,
+            tc: {
+                $size: {
+                    $split: ["$title", " "]
+                }
+            }
+        }
+    },
+    {
+        $match: {
+            tc: 1
+        }        
+    }
+]
+
+// Quiz
+// Let's find how many movies in our movies collection are a "labor of love", where the same person appears in cast, directors, and writers
+db.movies.aggregate([
+    {
+        $match: {
+            cast: {
+                $elemMatch: { $exists: true }
+            },
+            directors: {
+                $elemMatch: { $exists: true }
+            },
+            writers: {
+                $elemMatch: { $exists: true }
+            }
+        }
+    }, {
+        $project: {
+            writers: {
+                $map: {
+                    input: "$writers",
+                    as: "writer",
+                    in: {
+                        $arrayElemAt: [
+                            {
+                                $split: [ "$$writer", " (" ]
+                            }, 0
+                        ]
+                    }
+            },
+            cast: 1,
+            directors: 1
+        }
+    },
+    {
+        $match: {
+        }
+    },
+    { $count: "labors of love" }
+])
