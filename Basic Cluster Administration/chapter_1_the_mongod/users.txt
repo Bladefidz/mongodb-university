@@ -1,0 +1,3 @@
+Role: root on admin database
+Username: m103-admin
+Password: m103-pass.
