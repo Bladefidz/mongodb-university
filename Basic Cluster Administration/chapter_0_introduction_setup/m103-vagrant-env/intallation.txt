@@ -1,0 +1,17 @@
+Lecture Instructions
+
+From the directory m103-vagrant-env, we can bring up the Vagrant environment:
+
+    vagrant up
+
+After bringing up the environment, we can provision Vagrant (to download datasets, validation scripts, etc.):
+
+    vagrant provision
+
+Once the environment is provisioned, we can connect with ssh:
+
+    vagrant ssh
+
+As you complete labs in this course, you will be asked to run validation scripts that check your work. These validators are stored inside the VM. If you need to re-download these scripts, run the following command (from Vagrant):
+
+    download_validators 
