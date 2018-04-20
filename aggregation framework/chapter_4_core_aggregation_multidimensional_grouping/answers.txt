@@ -1,0 +1,15 @@
+// How many movies are in both the top ten highest rated movies according to the imdb.rating and the metacritic fields? We should get these results with exactly one access to the database.
+// imdb.rating  : 0 - 10
+// metacritic   : 0 - 100
+// Does not use facet though
+db.movies.find({
+    "metacritic": {
+        $gt: 90
+    },
+    "imdb.rating": {
+        $gte: 9
+    }
+}, {
+    title: 1,
+    metacritic: 1
+}).count()
