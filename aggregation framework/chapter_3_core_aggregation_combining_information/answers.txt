@@ -1,0 +1,276 @@
+// Sanity check for match regex in awards
+db.movies.aggregate([{
+    $match: {
+        awards: {
+            $regex: /^(Won [1-9]+ Oscar).*/
+        },
+        'imdb.rating': {
+            $gte: 1
+        }
+    }
+}, {
+    $group: {
+        _id: "$awards"
+    }
+}])
+
+// For all films that won at least 1 Oscar,
+// calculate the standard deviation, highest, lowest, and average imdb.rating.
+// Use the sample standard deviation expression.
+db.movies.aggregate([{
+    $match: {
+        awards: {
+            $regex: /^(Won [1-9]+ Oscar).*/
+        },
+        'imdb.rating': {
+            $gte: 1
+        }
+    }
+}, {
+    $group: {
+        _id: null,
+        highest_rating: {
+            $max: "$imdb.rating"
+        },
+        lowest_rating: {
+            $min: "$imdb.rating"
+        },
+        average_rating: {
+            $avg: "$imdb.rating"
+        },
+        deviation: {
+            $stdDevSamp: "$imdb.rating"
+        }
+    }
+}])
+
+
+// calculate how many movies every 'cast' member has been in
+// and get an average 'imdb.rating' for each 'cast' member.
+
+// Inspect group of movie by title
+db.movies.aggregate([{
+    $group: {
+        _id: "$title",
+        count: {
+            $sum: 1
+        }
+    }
+}, {
+    $sort: {
+        count: -1
+    }
+}])
+
+// What is the name, number of movies, and average rating
+// (truncated to one decimal) for the cast member that has been in
+// the most number of movies with English as an available language?
+db.movies.aggregate([{
+    $match: {
+        cast: {
+            $elemMatch: {
+                $exists: true
+            }
+        },
+        languages: 'English',
+        "imdb.rating": {
+            $gt: 0
+        }
+    }
+}, {
+    $unwind: "$cast"
+}, {
+    $group: {
+        _id: "$cast",
+        numFilms: {
+            $sum: 1
+        },
+        average: {
+            $avg: "$imdb.rating"
+        }
+    }
+}, {
+    $sort: {
+        numFilms: -1
+    }
+}], {
+    allowDiskUse: true
+})
+
+// db.air_alliances.count()
+// 3
+// db.air_airlines.count()
+// 6048
+// db.air_routes.count()
+// 66985
+
+// db.air_alliances.findOne()
+// {
+//     "_id" : ObjectId("5980bef9a39d0ba3c650ae9b"),
+//     "name" : "Star Alliance",
+//     "airlines" : [
+//             "Air Canada",
+//             "Adria Airways",
+//             "Avianca",
+//             "Scandinavian Airlines",
+//             "All Nippon Airways",
+//             "Brussels Airlines",
+//             "Shenzhen Airlines",
+//             "Air China",
+//             "Air New Zealand",
+//             "Asiana Airlines",
+//             "Brussels Airlines",
+//             "Copa Airlines",
+//             "Croatia Airlines",
+//             "EgyptAir",
+//             "TAP Portugal",
+//             "United Airlines",
+//             "Turkish Airlines",
+//             "Swiss International Air Lines",
+//             "Lufthansa",
+//             "EVA Air",
+//             "South African Airways",
+//             "Singapore Airlines"
+//     ]
+// }
+// db.air_airlines.findOne()
+// {
+//         "_id" : ObjectId("56e9b497732b6122f8790280"),
+//         "airline" : 4,
+//         "name" : "2 Sqn No 1 Elementary Flying Training School",
+//         "alias" : "",
+//         "iata" : "WYT",
+//         "icao" : "",
+//         "active" : "N",
+//         "country" : "United Kingdom",
+//         "base" : "HGH"
+// }
+// db.air_routes.findOne()
+// {
+//     "_id" : ObjectId("56e9b39b732b6122f877fa96"),
+//     "airline" : {
+//             "id" : 470,
+//             "name" : "Air Burkina",
+//             "alias" : "2J",
+//             "iata" : "VBW"
+//     },
+//     "src_airport" : "OUA",
+//     "dst_airport" : "LFW",
+//     "codeshare" : "",
+//     "stops" : 0,
+//     "airplane" : "CRJ"
+// }
+
+// Which alliance from air_alliances flies the most routes with either a Boeing 747 or an Airbus A380 (abbreviated 747 and 380 in air_routes)?
+// air_routes.airplane in ["747", "380"]
+// air_airlines.airline = air_routes.airline.id
+// air_airlines.name in air_alliances.airlines
+db.air_routes.aggregate([{
+    $match: {
+        airplane: {
+            $in: ["747", "380"]
+        }
+    }
+}, {
+    $lookup: {
+        from: "air_airlines",
+        localField: "airline.id",
+        foreignField: "airline",
+        as: "airline"
+    }
+}, {
+    $unwind: "$airline"
+}, {
+    $lookup: {
+        from: "air_alliances",
+        localField: "airline.name",
+        foreignField: "airlines",
+        as: "alliances"
+    }
+}, {
+    $unwind: "$alliances"
+}, {
+    $group: {
+        _id: "$alliances.name",
+        count: {
+            $sum: 1
+        }
+    }
+}, {
+    $sort: {
+        count: -1
+    }
+}], {allowDiskUse: true})
+
+
+// Find the list of all possible distinct destinations, with at most one layover, departing from the base airports of airlines that make part of the "OneWorld" alliance. The airlines should be national carriers from Germany, Spain or Canada only. Include both the destination and which airline services that location. As a small hint, you should find 158 destinations.
+
+// This is wrong lookup because not all airlines belong to an alliance
+db.air_airlines.aggregate([{
+    $match: {
+        country: {
+            $in: ["Germany", "Spain", "Canada"]
+        }
+    }
+}, {
+    $lookup: {
+        from: "air_alliances",
+        localField: "name",
+        foreignField: "airlines",
+        as: "aliance"
+    }
+}])
+
+// This is right lookup
+// $graphLookUp with maxDepth: 0 same as $lookup
+// The problem simply tells us to find any route with dst_airport = base
+db.air_alliances.aggregate([{
+    $match: {
+        name: "OneWorld"
+    }
+}, {
+    $graphLookup: {
+        startWith: "$airlines",
+        from: "air_airlines",
+        connectFromField: "name",
+        connectToField: "name",
+        as: "airlines",
+        maxDepth: 0,
+        restrictSearchWithMatch: {
+            country: {
+                $in: ["Germany", "Spain", "Canada"]
+            }
+        }
+    }
+}, {
+    $graphLookup: {
+        startWith: "$airlines.base",
+        from: "air_routes",
+        connectFromField: "dst_airport",
+        connectToField: "src_airport",
+        as: "connections",
+        maxDepth: 1
+    }
+}, {
+    $project: {
+        validAirLines: "$airlines.name",
+        "connections.dst_airport": 1,
+        "connections.airline.name": 1
+    }
+}, {
+    $unwind: "$connections"
+}, {
+    $project: {
+        isValid: {
+            $in: ["$connections.airline.name", "$validAirLines"]},
+        "connections.dst_airport": 1
+    }
+}, {
+    $match: {
+        isValid: true
+    }
+}, {
+    $group: {
+        _id: "$connections.dst_airport"
+    }
+}])

@@ -1,0 +1,137 @@
+/* Find author with lowest comments */
+db.posts.aggregate([{
+    $project: {
+        comments: 1
+    }
+}, {
+    $unwind: "$comments"
+}, {
+    $group: {
+        _id: "$comments.author",
+        totalComment: {
+            $sum: 1
+        }
+    }
+}, {
+    $sort: {
+        totalComment: 1
+    }
+}, {
+    $limit: 1
+}])
+
+/* Find author with greatest comments */
+db.posts.aggregate([{
+    $project: {
+        comments: 1
+    }
+}, {
+    $unwind: "$comments"
+}, {
+    $group: {
+        _id: "$comments.author",
+        totalComment: {
+            $sum: 1
+        }
+    }
+}, {
+    $sort: {
+        totalComment: -1
+    }
+}, {
+    $limit: 1
+}])
+
+/* Average population of cities in CT and NJ with populations over 25,000 */
+db.zips_sample.aggregate([{
+    $match: {
+        state: {
+            $in: ['CT', 'NJ']
+        },
+        pop: {
+            $gt: 25000
+        }
+    }
+}, {
+    $group: {
+        _id: null,
+        avg_pop: {
+            $avg: "$pop"
+        }
+    }
+}])
+
+/* Average population of cities in CA and NY with populations over 25,000 */
+db.zips_sample.aggregate([{
+    $match: {
+        state: {
+            $in: ['CA', 'NY']
+        },
+        pop: {
+            $gt: 25000
+        }
+    }
+}, {
+    $group: {
+        _id: null,
+        avg_pop: {
+            $avg: "$pop"
+        }
+    }
+}])
+
+/* Find class with lowest average non-quiz scores */
+db.grades.aggregate([{
+    $unwind: "$scores"
+}, {
+    $match: {
+        "scores.type": {
+            $in: ['homework', 'exam']
+        }
+    }
+}, {
+    $group: {
+        _id: {
+            student_id: "$student_id",
+            class_id: "$class_id"
+        },
+        gpa: {
+            $avg: "$scores.score"
+        }
+    }
+}, {
+    $group: {
+        _id: "$_id.class_id",
+        avgGpa: {
+            $avg: "$gpa"
+        }
+    }
+}, {
+    $sort: {
+        avgGpa: 1
+    }
+}])
+
+/* Calculate the sum total of people who are living in a zip code where the city starts with character (B, D, O, G, N or M) */
+db.zips.aggregate([{
+    $project: {
+        city: 1,
+        first_char: {
+            $substrBytes: ["$city", 0, 1]
+        },
+        pop: 1
+    }
+}, {
+    $match: {
+        first_char: {
+            $in: ['B', 'D', 'O', 'G', 'N', 'M']
+        }
+    }
+}, {
+    $group: {
+        _id: null,
+        total_pop: {
+            $sum: "$pop"
+        }
+    }
+}])
