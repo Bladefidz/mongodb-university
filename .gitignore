@@ -111,3 +111,6 @@ package-lock.json
 
 # Dolphin
 .directory
+
+# Big files
+performance/restaurants.json
