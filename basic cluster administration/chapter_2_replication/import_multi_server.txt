@@ -1,0 +1,1 @@
+mongoimport --drop --host m103-repl/192.168.103.100:27002,192.168.103.100:27001,192.168.103.100:27003 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" --db applicationData --collection products /dataset/products.json

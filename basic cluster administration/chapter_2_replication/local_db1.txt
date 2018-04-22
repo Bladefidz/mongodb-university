@@ -1,0 +1,29 @@
+Create new namespace m103.messages:
+
+use m103
+db.createCollection('messages')
+
+Query the oplog, filtering out the heartbeats ("periodic noop") and only returning the latest entry:
+
+use local
+db.oplog.rs.find( { "o.msg": { $ne: "periodic noop" } } ).sort( { $natural: -1 } ).limit(1).pretty()
+
+Inserting 100 different documents:
+
+use m103
+for ( i=0; i< 100; i++) { db.messages.insert( { 'msg': 'not yet', _id: i } ) }
+db.messages.count()
+
+Querying the oplog to find all operations related to m103.messages:
+
+use local
+db.oplog.rs.find({"ns": "m103.messages"}).sort({$natural: -1})
+
+Illustrating that one update statement may generate many entries in the oplog:
+
+use m103
+db.messages.updateMany( {}, { $set: { author: 'norberto' } } )
+use local
+db.oplog.rs.find( { "ns": "m103.messages" } ).sort( { $natural: -1 } )
+
+Remember, even though you can write data to the local db, you should not.
