@@ -61,13 +61,47 @@ db.zips_sample.aggregate([{
     }
 }])
 
+/* you are provided a dataset where each doc corresponds to a zip code, not a city. This means that a city can spread over multiple zip codes, so your query has to compute the total population by city and state. */
+db.zips_sample.aggregate([{
+    $group: {
+        _id: "$city",
+        states: {
+            $addToSet: "$state"
+        }
+    }
+}, {
+    $project: {
+        city: "$_id",
+        states: 1,
+        numberOfState: { $size: "$states" }
+    }
+}, {
+    $sort: {
+        "numberOfState": -1
+    }
+}])
+
+
 /* Average population of cities in CA and NY with populations over 25,000 */
 db.zips_sample.aggregate([{
     $match: {
         state: {
             $in: ['CA', 'NY']
+        }
+    }
+}, {
+    $group: {
+        _id: {
+            city: "$city",
+            state: "$state"
         },
         pop: {
+            $sum:  "$pop"
+        }
+    }
+}, {
+    $match: {
+        "pop": {
             $gt: 25000
         }
     }

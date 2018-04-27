@@ -1,0 +1,10 @@
+## changing config servers
+
+only shard the big collections
+pre-split if bulk loading
+pick shard key with care, they aren't easily changeable
+be cognizant of monotonically increasing shard keys
+adding a shard is easy but takes time
+use logical server names for config servers
+don't directly talk to anything except mongos except for dba work
+keep non-mongos processes off of 27017 to avoid mistakes
