@@ -1,4 +1,26 @@
 // Sanity check for match regex in awards
+db.movies.find({
+    awards: {
+        $regex: /^(Won [1-9]+ Oscar).*/
+    },
+    'imdb.rating': {
+        $gte: 1
+    }
+}).count()
+db.movies.aggregate([{
+    $match: {
+        awards: {
+            $regex: /^(Won [1-9]+ Oscar).*/
+        },
+        'imdb.rating': {
+            $gte: 1
+        }
+    }
+}, {
+    $group: {
+        _id: "$awards"
+    }
+}])
 db.movies.aggregate([{
     $match: {
         awards: {

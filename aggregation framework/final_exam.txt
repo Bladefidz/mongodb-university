@@ -1,0 +1,63 @@
+// Using the air_alliances and air_routes collections, find which alliance has
+// the most unique carriers(airlines) operating between the airports JFK and LHR.
+// Names are distinct, i.e. Delta != Delta Air Lines
+// src_airport and dst_airport contain the originating and terminating airport
+// information.
+db.air_routes.aggregate([{
+    $match: {
+            src_airport: "JFK"
+        }
+}, {
+    $group: {
+        _id: "$airline.name",
+        dst_airports: {
+            $push: "$dst_airport"
+        }
+    }
+}, {
+    $match: {
+        dst_airports: "LHR"
+    }
+}, {
+    $lookup: {
+        from: "air_alliances",
+        let: {airline: "$_id"},
+        pipeline: [{
+            $unwind: "$airlines"
+        }, {
+            $match: {
+                $expr: {
+                    $eq: [ "$airlines",  "$$airline" ]
+                }
+            }
+        }],
+        as: "alliances"
+    }
+}, {
+    $project: {
+        alliances: 1,
+        allianceCount: {
+            $size: "$alliances"
+        }
+    }
+}, {
+    $match: {
+        allianceCount: {
+            $gt: 0
+        }
+    }
+}, {
+    $group: {
+        _id: "$alliances.name",
+        airlines: {
+            $push: "$_id"
+        },
+        count: {
+            $sum: 1
+        }
+    }
+}, {
+    $sort: {
+        count: -1
+    }
+}]).pretty()
