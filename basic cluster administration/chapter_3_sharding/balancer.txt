@@ -1,0 +1,8 @@
+# Start the balancer:
+sh.startBalancer(timeout, interval)
+
+# Stop the balancer:
+sh.stopBalancer(timeout, interval)
+
+# Enable/disable the balancer:
+sh.setBalancerState(boolean)

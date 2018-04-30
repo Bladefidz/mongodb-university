@@ -1,0 +1,16 @@
+# Show collections in config database:
+use config
+show collections
+
+# Find one document from the chunks collection:
+db.chunks.findOne()
+
+# Change the chunk size (in Mega Bytes):
+use config
+db.settings.save({_id: "chunksize", value: 2})
+
+# Check the status of the sharded cluster:
+sh.status()
+
+# Import a new dataset (note that this dataset does not exist on the course VM):
+mongoimport -d m103 -c products /shared/products.part2.json
