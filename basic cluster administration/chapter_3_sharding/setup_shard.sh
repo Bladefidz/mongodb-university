@@ -5,7 +5,7 @@ mongoimport --drop products.json --port 26000 -u "m103-admin" -p "m103-pass" --a
 mongo --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" << 'EOF'
 sh.enableSharding("m103")
 use m103
-db.products.createIndex({"regularPrice": 1})
+db.products.createIndex({"name": 1})
 use admin
-db.adminCommand( { shardCollection: "m103.products", key: { "regularPrice": 1 } } )
+db.adminCommand( { shardCollection: "m103.products", key: { "name": 1 } } )
 EOF
