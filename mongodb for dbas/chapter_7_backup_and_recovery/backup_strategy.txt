@@ -1,0 +1,17 @@
+# You can do all this commands in parallel!
+
+# Back up a sharded cluster
+
+mongo --host <mongos_host> --eval "sh.stopBalancer()"
+# Make sure that worked!
+
+# Back up config database / a config server
+mongodump --host <host> --db config
+
+# Back up all the shards
+mongodump --host <shard1> --oplog <backup_dir>
+mongodump --host <shard2> --oplog <backup_dir>
+mongodump --host <shard3> --oplog <backup_dir>
+
+# Balancer back on
+mongo --host <mongos_host> --eval "sh.startBalancer()"

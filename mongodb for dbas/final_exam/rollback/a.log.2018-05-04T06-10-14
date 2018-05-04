@@ -1,0 +1,108 @@
+2018-05-04T13:02:13.254+0700 I CONTROL  [initandlisten] MongoDB starting : pid=14288 port=27001 dbpath=/home/bladefidz/Codes/mongodb-analytics/mongodb for dbas/final_exam/rollback/data/z1 64-bit host=linux-i3n2
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] db version v3.6.4
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] git version: d0181a711f7e7f39e60b5aeb1dc7097bf6ae5856
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2n-fips  7 Dec 2017
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] modules: none
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] build environment:
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten]     distmod: suse12
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten]     distarch: x86_64
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-05-04T13:02:13.255+0700 I CONTROL  [initandlisten] options: { net: { port: 27001 }, processManagement: { fork: true }, replication: { oplogSizeMB: 50, replSet: "z" }, storage: { dbPath: "data/z1", mmapv1: { smallFiles: true } }, systemLog: { destination: "file", path: "a.log" } }
+2018-05-04T13:02:13.255+0700 I -        [initandlisten] Detected data files in /home/bladefidz/Codes/mongodb-analytics/mongodb for dbas/final_exam/rollback/data/z1 created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2018-05-04T13:02:13.256+0700 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=2425M,session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),cache_cursors=false,log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+2018-05-04T13:02:15.171+0700 I STORAGE  [initandlisten] WiredTiger message [1525413735:171075][14288:0x7f6bb193ba00], txn-recover: Main recovery loop: starting at 1/81920
+2018-05-04T13:02:15.286+0700 I STORAGE  [initandlisten] WiredTiger message [1525413735:286023][14288:0x7f6bb193ba00], txn-recover: Recovering log 1 through 2
+2018-05-04T13:02:15.399+0700 I STORAGE  [initandlisten] WiredTiger message [1525413735:399214][14288:0x7f6bb193ba00], txn-recover: Recovering log 2 through 2
+2018-05-04T13:02:15.897+0700 I STORAGE  [initandlisten] WiredTiger message [1525413735:897414][14288:0x7f6bb193ba00], txn-recover: Set global recovery timestamp: 0
+2018-05-04T13:02:16.195+0700 I STORAGE  [initandlisten] Starting WiredTigerRecordStoreThread local.oplog.rs
+2018-05-04T13:02:16.196+0700 I STORAGE  [initandlisten] The size storer reports that the oplog contains 18 records totaling to 2572 bytes
+2018-05-04T13:02:16.196+0700 I STORAGE  [initandlisten] Scanning the oplog to determine where to place markers for truncation
+2018-05-04T13:02:16.648+0700 W STORAGE  [initandlisten] Detected configuration for non-active storage engine mmapv1 when current storage engine is wiredTiger
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] ** WARNING: You are running this process as the root user, which is not recommended.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] 
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2018-05-04T13:02:16.648+0700 I CONTROL  [initandlisten] 
+2018-05-04T13:02:16.682+0700 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/home/bladefidz/Codes/mongodb-analytics/mongodb for dbas/final_exam/rollback/data/z1/diagnostic.data'
+2018-05-04T13:02:16.683+0700 I REPL     [initandlisten] Rollback ID is 1
+2018-05-04T13:02:16.684+0700 I REPL     [initandlisten] No oplog entries to apply for recovery. appliedThrough and checkpointTimestamp are both null.
+2018-05-04T13:02:16.684+0700 I NETWORK  [initandlisten] waiting for connections on port 27001
+2018-05-04T13:02:16.685+0700 I REPL     [replexec-0] New replica set config in use: { _id: "z", version: 1, protocolVersion: 1, members: [ { _id: 1, host: "localhost:27001", arbiterOnly: false, buildIndexes: true, hidden: false, priority: 1.0, tags: {}, slaveDelay: 0, votes: 1 }, { _id: 2, host: "localhost:27002", arbiterOnly: true, buildIndexes: true, hidden: false, priority: 0.0, tags: {}, slaveDelay: 0, votes: 1 }, { _id: 3, host: "localhost:27003", arbiterOnly: false, buildIndexes: true, hidden: false, priority: 1.0, tags: {}, slaveDelay: 0, votes: 1 } ], settings: { chainingAllowed: true, heartbeatIntervalMillis: 2000, heartbeatTimeoutSecs: 10, electionTimeoutMillis: 10000, catchUpTimeoutMillis: -1, catchUpTakeoverDelayMillis: 30000, getLastErrorModes: {}, getLastErrorDefaults: { w: 1, wtimeout: 0 }, replicaSetId: ObjectId('5aebf68d0d1fb9059c605827') } }
+2018-05-04T13:02:16.685+0700 I REPL     [replexec-0] This node is localhost:27001 in the config
+2018-05-04T13:02:16.685+0700 I REPL     [replexec-0] transition to STARTUP2 from STARTUP
+2018-05-04T13:02:16.685+0700 I REPL     [replexec-0] Starting replication storage threads
+2018-05-04T13:02:16.686+0700 I ASIO     [NetworkInterfaceASIO-Replication-0] Connecting to localhost:27002
+2018-05-04T13:02:16.686+0700 I REPL     [replexec-0] transition to RECOVERING from STARTUP2
+2018-05-04T13:02:16.686+0700 I REPL     [replexec-0] Starting replication fetcher thread
+2018-05-04T13:02:16.686+0700 I REPL     [replexec-0] Starting replication applier thread
+2018-05-04T13:02:16.686+0700 I REPL     [replexec-0] Starting replication reporter thread
+2018-05-04T13:02:16.687+0700 I ASIO     [NetworkInterfaceASIO-Replication-0] Connecting to localhost:27003
+2018-05-04T13:02:16.687+0700 I REPL     [rsSync] transition to SECONDARY from RECOVERING
+2018-05-04T13:02:16.687+0700 I ASIO     [NetworkInterfaceASIO-Replication-0] Successfully connected to localhost:27002, took 1ms (1 connections now open to localhost:27002)
+2018-05-04T13:02:16.688+0700 I ASIO     [NetworkInterfaceASIO-Replication-0] Successfully connected to localhost:27003, took 2ms (1 connections now open to localhost:27003)
+2018-05-04T13:02:16.688+0700 I REPL     [replexec-1] Member localhost:27002 is now in state ARBITER
+2018-05-04T13:02:16.688+0700 I REPL     [replexec-0] Member localhost:27003 is now in state PRIMARY
+2018-05-04T13:02:17.687+0700 I REPL     [rsBackgroundSync] sync source candidate: localhost:27003
+2018-05-04T13:02:17.687+0700 I ASIO     [NetworkInterfaceASIO-RS-0] Connecting to localhost:27003
+2018-05-04T13:02:17.689+0700 I ASIO     [NetworkInterfaceASIO-RS-0] Successfully connected to localhost:27003, took 2ms (1 connections now open to localhost:27003)
+2018-05-04T13:02:17.691+0700 I ASIO     [NetworkInterfaceASIO-RS-0] Connecting to localhost:27003
+2018-05-04T13:02:17.692+0700 I ASIO     [NetworkInterfaceASIO-RS-0] Successfully connected to localhost:27003, took 1ms (2 connections now open to localhost:27003)
+2018-05-04T13:02:17.696+0700 I STORAGE  [repl writer worker 4] createCollection: config.system.sessions with provided UUID: a6c36e7d-166b-4312-ba6c-495783a6026c
+2018-05-04T13:02:17.986+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35806 #1 (1 connection now open)
+2018-05-04T13:02:17.987+0700 I NETWORK  [conn1] received client metadata from 127.0.0.1:35806 conn1: { driver: { name: "NetworkInterfaceASIO-Replication", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:02:18.389+0700 I INDEX    [repl writer worker 6] build index on: config.system.sessions properties: { v: 2, key: { lastUse: 1 }, name: "lsidTTLIndex", expireAfterSeconds: 1800, ns: "config.system.sessions" }
+2018-05-04T13:02:18.389+0700 I INDEX    [repl writer worker 6] 	 building index using bulk method; build may temporarily use up to 500 megabytes of RAM
+2018-05-04T13:02:18.448+0700 I INDEX    [repl writer worker 6] build index done.  scanned 0 total records. 0 secs
+2018-05-04T13:02:18.462+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35810 #2 (2 connections now open)
+2018-05-04T13:02:18.463+0700 I NETWORK  [conn2] received client metadata from 127.0.0.1:35810 conn2: { driver: { name: "NetworkInterfaceASIO-Replication", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:04:45.508+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35818 #3 (3 connections now open)
+2018-05-04T13:04:45.508+0700 I NETWORK  [conn3] received client metadata from 127.0.0.1:35818 conn3: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:05:39.819+0700 I NETWORK  [conn3] end connection 127.0.0.1:35818 (2 connections now open)
+2018-05-04T13:07:06.413+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35860 #4 (3 connections now open)
+2018-05-04T13:07:06.413+0700 I NETWORK  [conn4] received client metadata from 127.0.0.1:35860 conn4: { driver: { name: "MongoDB Internal Client", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:07:16.684+0700 I NETWORK  [thread5] Starting new replica set monitor for z/localhost:27001,localhost:27003
+2018-05-04T13:07:16.686+0700 I NETWORK  [thread5] Successfully connected to localhost:27003 (1 connections now open to localhost:27003 with a 5 second timeout)
+2018-05-04T13:07:16.702+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35876 #5 (4 connections now open)
+2018-05-04T13:07:16.702+0700 I NETWORK  [conn5] received client metadata from 127.0.0.1:35876 conn5: { driver: { name: "MongoDB Internal Client", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:07:16.703+0700 I NETWORK  [ReplicaSetMonitor-TaskExecutor-0] Successfully connected to localhost:27001 (1 connections now open to localhost:27001 with a 5 second timeout)
+2018-05-04T13:07:16.703+0700 I NETWORK  [thread5] Successfully connected to localhost:27003 (1 connections now open to localhost:27003 with a 0 second timeout)
+2018-05-04T13:07:16.703+0700 I NETWORK  [thread5] scoped connection to localhost:27003 not being returned to the pool
+2018-05-04T13:07:16.719+0700 I NETWORK  [thread5] Successfully connected to localhost:27003 (2 connections now open to localhost:27003 with a 0 second timeout)
+2018-05-04T13:07:16.719+0700 I NETWORK  [thread5] scoped connection to localhost:27003 not being returned to the pool
+2018-05-04T13:07:16.719+0700 I NETWORK  [thread5] Starting new replica set monitor for z/localhost:27001,localhost:27003
+2018-05-04T13:07:16.721+0700 I NETWORK  [thread5] Successfully connected to localhost:27003 (3 connections now open to localhost:27003 with a 0 second timeout)
+2018-05-04T13:07:16.721+0700 I NETWORK  [thread5] scoped connection to localhost:27003 not being returned to the pool
+2018-05-04T13:07:16.721+0700 I NETWORK  [thread5] Starting new replica set monitor for z/localhost:27001,localhost:27003
+2018-05-04T13:07:16.723+0700 I NETWORK  [thread5] Successfully connected to localhost:27003 (4 connections now open to localhost:27003 with a 0 second timeout)
+2018-05-04T13:07:16.723+0700 I NETWORK  [thread5] scoped connection to localhost:27003 not being returned to the pool
+2018-05-04T13:08:06.657+0700 I NETWORK  [listener] connection accepted from 127.0.0.1:35892 #6 (5 connections now open)
+2018-05-04T13:08:06.658+0700 I NETWORK  [conn6] received client metadata from 127.0.0.1:35892 conn6: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.6.4" }, os: { type: "Linux", name: "NAME="openSUSE Tumbleweed"", architecture: "x86_64", version: "Kernel 4.16.6-1-default" } }
+2018-05-04T13:08:16.326+0700 I COMMAND  [conn6] terminating, shutdown command received
+2018-05-04T13:08:16.326+0700 I NETWORK  [conn6] shutdown: going to close listening sockets...
+2018-05-04T13:08:16.326+0700 I NETWORK  [conn6] removing socket file: /tmp/mongodb-27001.sock
+2018-05-04T13:08:16.327+0700 I REPL     [conn6] shutting down replication subsystems
+2018-05-04T13:08:16.327+0700 I REPL     [conn6] Stopping replication reporter thread
+2018-05-04T13:08:16.327+0700 I REPL     [SyncSourceFeedback] SyncSourceFeedback error sending update to localhost:27003: CallbackCanceled: Reporter no longer valid
+2018-05-04T13:08:16.327+0700 I REPL     [conn6] Stopping replication fetcher thread
+2018-05-04T13:08:16.327+0700 I REPL     [conn6] Stopping replication applier thread
+2018-05-04T13:08:16.327+0700 I ASIO     [NetworkInterfaceASIO-RS-0] Ending connection to host localhost:27003 due to bad connection status; 1 connections to that host remain open
+2018-05-04T13:08:16.328+0700 I REPL     [rsBackgroundSync] Replication producer stopped after oplog fetcher finished returning a batch from our sync source.  Abandoning this batch of oplog entries and re-evaluating our sync source.
+2018-05-04T13:08:16.329+0700 I REPL     [conn6] Stopping replication storage threads
+2018-05-04T13:08:16.331+0700 I FTDC     [conn6] Shutting down full-time diagnostic data capture
+2018-05-04T13:08:16.337+0700 I STORAGE  [WTOplogJournalThread] oplog journal thread loop shutting down
+2018-05-04T13:08:16.338+0700 I STORAGE  [conn6] WiredTigerKVEngine shutting down
+2018-05-04T13:08:17.755+0700 I STORAGE  [conn6] shutdown: removing fs lock...
+2018-05-04T13:08:17.756+0700 I CONTROL  [conn6] now exiting
+2018-05-04T13:08:17.756+0700 I CONTROL  [conn6] shutting down with code:0

@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"snps.elegans"},{"v":1,"key":{"snp":1},"name":"snp_1","ns":"snps.elegans"}]}

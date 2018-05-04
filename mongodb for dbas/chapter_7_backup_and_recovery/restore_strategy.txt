@@ -1,0 +1,7 @@
+# Restore config server data
+
+# Start config server
+mongod --port <port> --dbpath <path> --logpath <path> --configsvr --fork
+# Restore bson dump directory
+mongorestore --port <port> --db <path>
+
