@@ -6,8 +6,20 @@ enron.communication_pair = function () {
 	}, {
 		$group: {
 			_id: {
-				from: "$headers.From",
-				to: "$headers.To"
+				id: "$_id",
+				from: "$headers.From"
+			},
+			to: {
+				$addToSet: "$headers.To"
+			}
+		}
+	}, {
+		$unwind: "$to"
+	}, {
+		$group: {
+			_id: {
+				from: "$_id.from",
+				to: "$to"
 			},
 			count: {
 				$sum: 1
@@ -17,5 +29,5 @@ enron.communication_pair = function () {
 		$sort: {
 			count: -1
 		}
-	}])	
+	}])
 }
