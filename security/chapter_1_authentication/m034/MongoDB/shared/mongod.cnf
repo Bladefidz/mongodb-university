@@ -1,0 +1,22 @@
+net:
+  port: 30000
+processManagement:
+  fork: true
+systemLog:
+  destination: "file"
+  path: "/home/vagrant/data/log"
+  logAppend: true
+storage:
+  dbPath: /home/vagrant/data
+security:
+  authorization: "enabled"
+  ldap:
+    servers: "192.168.19.100"
+    authz:
+      queryTemplate: "ou=Users,dc=mongodb,dc=com??one?(member={USER})"
+    userToDNMapping: '[{match: "(.+)", substitution: "uid={0},ou=Users,dc=mongodb,dc=com"}]'
+    transportSecurity: "none"
+    bind:
+      method: "simple"
+setParameter:
+    authenticationMechanisms: PLAIN

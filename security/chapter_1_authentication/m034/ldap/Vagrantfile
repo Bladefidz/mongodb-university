@@ -1,0 +1,23 @@
+if Vagrant::VERSION < "2.0.0"
+  $stderr.puts "Must redirect to new repository for old Vagrant versions"
+  Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder "config/", "/vagrant", create: true
+  config.vm.box_check_update = false
+  config.vm.box = "CentoOS 6.4"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
+  config.ssh.insert_key = false
+
+  config.vm.define "ldap" do |server|
+    server.vm.provider "virtualbox" do |v|
+       v.customize ["modifyvm", :id, "--cpus", "2"]
+       v.name = "ldap-server"
+    end
+
+    server.vm.network :private_network, ip: "192.168.19.100"
+    server.vm.hostname = "ldap.education.mongodb"
+    server.vm.provision :shell, path: "provision-ldap", args: ENV['ARGS']
+  end
+end

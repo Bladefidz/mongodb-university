@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Bash script for provisioning the LDAP server
+
+set -e
+set -x
+
+function config_network(){
+  export CLIENT_IP_ADDR=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | tail -1`
+  export CLIENT_FQDN=`hostname`
+  export CLIENT_NAME=`hostname | cut -d. -f 1 | tr '[:upper:]' '[:lower:]'`
+  echo "Configuring /etc/hosts ..."
+  echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4" > /etc/hosts
+  echo "::1       localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /etc/hosts
+  echo "$CLIENT_IP_ADDR    $CLIENT_FQDN $CLIENT_NAME" >> /etc/hosts
+
+  service iptables stop
+  chkconfig iptables off
+}
+
+function update_epel(){
+  # first, we need to update ca certificates
+  yum install -y epel-release
+  yum --disablerepo=epel -y update  ca-certificates
+
+  # now update epel-release
+  yum update -y epel-release
+}
+
+function install_openldap(){
+  echo "Install Dependencies"
+  yum -y install openldap-servers openldap-clients openldap-devel openldap python-devel gcc cyrus-sasl-plain xfsprogs net-snmp ps-misc wget curl python-pip
+  yum install python-ldap
+
+  echo "Start Service"
+  service slapd stop
+  service slapd start
+
+  sleep 5
+}
+
+function configure_ldap(){
+  ldapadd -Y EXTERNAL -H ldapi:/// -f /vagrant/pw.ldif
+
+  # Add our specifics
+  ldapadd -x -D "cn=Manager,dc=mongodb,dc=com" -w password -f /vagrant/Domain.ldif
+  ldapadd -x -D "cn=Manager,dc=mongodb,dc=com" -w password -f /vagrant/Users.ldif
+
+  ln -s /vagrant/ldapconfig.py /home/vagrant/ldapconfig.py
+}
+
+
+config_network
+update_epel
+install_openldap
+configure_ldap
+
+echo "DONE"
