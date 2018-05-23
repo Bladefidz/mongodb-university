@@ -5,12 +5,12 @@ setParameter:
   authenticationMechanisms: PLAIN
 net:
   bindIp: database.m310.mongodb.university
-  port: 31160
+  port: 31161
 storage:
-  dbPath: /home/vagrant/M310-HW-1.6/r0
+  dbPath: /home/vagrant/M310-HW-1.6/r1
 systemLog:
   destination: file
-  path: /home/vagrant/M310-HW-1.6/r0/mongo.log
+  path: /home/vagrant/M310-HW-1.6/r1/mongo.log
   logAppend: true
 processManagement:
   fork: true
