@@ -35,8 +35,15 @@ python ldapconfig.py add -u adam -p password
    sudo apt-get install sasl2-bin
    ```
 2. Edit file `/etc/default/saslauthd`:
-	- Change `START` to `yes`
-	- Change `MECHANISMS` to `ldap`
+	```
+	START=yes
+	DESC="SASL Authentication Daemon"
+	NAME="saslauthd"
+	MECHANISMS="ldap"
+	MECH_OPTIONS=""
+	THREADS=5
+	OPTIONS="-m /var/run/saslauthd"
+	```
 3. Edit file `/etc/saslauthd.conf`. if not exist, create it:
 	```
 	ldap_servers: ldap://localhost:389
@@ -49,24 +56,27 @@ python ldapconfig.py add -u adam -p password
 	```
 5. Create the way so mongodb can access `mux` which is unix socket to communicate with saslauthd:
 	```
-	sudo chmod 775 /var/run/saslauthd/
+	sudo chmod 755 /var/run/saslauthd/
 	```
 6. Verify that mongodb can communicate with `saslauthd`:
 	```
 	testsaslauthd -u kirby -p ldap -f /var/run/saslauthd/mux
 	```
-7. Start mongod with `ldap` authentication enabled, use `sudo` since we have `755` permission on `/var/run/saslauthd/`:
+7. Start all replication set members with `ldap` authentication enabled:
 	```
-	sudo mongod --auth --setParameter authenticationMechanisms=PLAIN --setParameter saslauthdPath="/var/run/saslauthd/mux" --dbpath /data/db --logpath /data/db/mongo.log --fork
+	mongod --auth --setParameter authenticationMechanisms=PLAIN --setParameter saslauthdPath="/var/run/saslauthd/mux" --dbpath /data/db --logpath /data/db/mongo.log --fork
 	```
-8. Connect with `mongo`
+8. Connect with `mongo`:
+	```
+	mongo --port <PORT>
+	```
 9. Create ldap user:
 	```
-	db.getSiblingDB("$external").createUser({user: 'kirby', roles: [{role: 'root', db: 'admin'}]})
+	db.getSiblingDB("$external").createUser({user: 'adam', roles: [{role: "userAdminAnyDatabase", db: "admin"}, {role: "dbAdminAnyDatabase", db: "admin"}, {role: "clusterAdmin", db: "admin"}]})
 	```
-10. Get authentication:
+10. To be authenticated:
 	```
-	db.getSiblingDB("$external").auth({mechanism: "PLAIN", user: 'kirby', pwd: 'ldap', digestPassword: false})
+	db.getSiblingDB("$external").auth({mechanism: "PLAIN", user: 'adam', pwd: 'password', digestPassword: false})
 	```
 
 ## Test LDAP Configuration Using MongoLDAP
