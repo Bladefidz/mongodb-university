@@ -1,5 +1,0 @@
-dn: dc=mongodb,dc=com
-objectClass: dcObject
-objectClass: organization
-dc: mongodb
-o : mongodb

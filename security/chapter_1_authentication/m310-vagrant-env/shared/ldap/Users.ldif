@@ -1,3 +1,0 @@
-dn: ou=Users,dc=mongodb,dc=com
-ou: Users
-objectClass: organizationalUnit

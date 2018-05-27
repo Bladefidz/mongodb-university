@@ -11,11 +11,11 @@ OpenSSL version: OpenSSL xxxx xx xxxx xxxx
 Then, you good to go.
 2. Provide some `TLS` certificates:
 	- **ca.pem** is Certificate Authority (CA) file
-	- **client.pem** contains public and private keys
+	- **client.pem** is client certificate
 	- **server.pem** is server certificate
 3. Activate `mongod` with `x.509` support:
 ```
-mongod --ssl --sslPEMKeyFile client.pem --sslCAFile ca.pem
+mongod --ssl --sslPEMKeyFile server.pem --sslCAFile ca.pem
 ```
 4. To inspect issued certificate and authorization server in `client.pem`, use command below to decode `client.pem`:
 ```

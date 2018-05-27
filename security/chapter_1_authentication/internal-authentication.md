@@ -44,10 +44,9 @@ OpenSSL version: OpenSSL xxxx xx xxxx xxxx
 ```
 Then, you good to go.
 2. Prepare all hashed certificates:
-```
-ca.pem
-client.pem
-server.pem
+	- ca.pem
+	- client.pem
+	- server.pem
 3. Inspect issued certificate and authorization server in `client.pem`, use command below to decode `client.pem`:
 ```
 openssl x509 -in client.pem -inform PEM -subject -nameopt RFC2253 -noout
@@ -59,17 +58,21 @@ openssl x509 -in client.pem -inform PEM -subject -nameopt RFC2253 -noout
 db.getSiblingDB("$external").runCommand({createUser: "C=US,ST=New York,L=New York City,O=MongoDB,OU=KernelUser,CN=client", roles: [{role: 'root', db: 'admin'}]})
 ```
 *Note* that we used `$external` since all credential meta data stored in external database defined in `server.pem`
-7. Kill all `mongod` processes.
-8. Start all **preconfigured replica set members** with `ssl` option:
+7. Add shards with hostname defined in `server.pem`. To find issued hostname, execute:
 ```
-mongod --replSet myReplSet --dbpath ./rs1/db --logpath ./rs1/mongod.log --port 27017 --fork --sslMode requireSSL --clusterAuthMode x509 --sslPEMKeyFile client.pem --sslCAFile ca.pem
+openssl x509 -in m310-certs/server.pem -text
+```
+8. Kill all `mongod` processes.
+9. Start all **preconfigured replica set members** with `ssl` option:
+```
+mongod --auth --replSet myReplSet --dbpath ./rs1/db --logpath ./rs1/mongod.log --port 27017 --fork --sslMode requireSSL --clusterAuthMode x509 --sslPEMKeyFile server.pem --sslCAFile ca.pem
 ...
 ```
-9. Connect to `mongo` with `ssl` enable which also automatically enabling `x.509 certificate`:
+10. Connect to `mongo` with `ssl` enable which also automatically enabling `x.509 certificate`:
 ```
 mongo --host database.m310.mongodb.university:27017 --ssl --sslPEMKeyFile m310-certs/client.pem --sslCAFile m310-certs/ca.pem
 ```
-10. To be authenticated, execute this command:
+11. To be authenticated, execute this command:
 ```
 db.getSiblingDB("$external").auth({user: "C=US,ST=New York,L=New York City,O=MongoDB,OU=KernelUser,CN=client", mechanism: "MONGODB-X509"})
 ```

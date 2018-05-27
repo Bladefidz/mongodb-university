@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+function config_hosts(){
+  echo "Configuring /etc/hosts ..."
+  echo "192.168.31.100 database.m310.mongodb.university database"   >> /etc/hosts
+  echo "192.168.31.200 infrastructure.m310.mongodb.university infrastructure"   >> /etc/hosts
+}
+
+function update_repo(){
+  echo "Install MongoDB Enterprise Repository"
+  echo "deb http://repo.mongodb.com/apt/ubuntu "$(lsb_release -sc)"/mongodb-enterprise/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-enterprise.list
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  echo "Update Repositoryies"
+  apt-get update -y
+}
+
+function install_mongod(){
+  echo "Install MongoDB Enterprise"
+  apt-get install -y mongodb-enterprise
+  sh -c "killall mongod; true"
+  echo "Set LC_ALL=C to .profile"
+  echo "export LC_ALL=C" >> /home/vagrant/.profile
+}
+
+function install_kerberos_client(){
+  apt-get install -y krb5-user libsasl2-modules-gssapi-mit
+}
+
+function config_kerberos_client(){
+  cp /home/vagrant/shared/krb5.conf /etc/
+  cp /home/vagrant/shared/mongodb.keytab /etc/krb5.keytab
+  chown mongod:mongod /etc/krb5.keytab
+}
+
+function install_saslauthd(){
+  apt-get install -y sasl2-bin
+}
+
+function config(){
+  # disable THP
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/enabled
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/defrag
+  # disable mongod upstart service
+  echo 'manual' | tee /etc/init/mongod.override
+}
+
+config_hosts
+update_repo
+install_mongod
+install_saslauthd
+config
+echo "DONE"

@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/shared":{"create":true,"guestpath":"/home/vagrant/shared","hostpath":"/home/bladefidz/Codes/mongodb-analytics/security/m310-vagrant-env/shared","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/bladefidz/Codes/mongodb-analytics/security/m310-vagrant-env","disabled":false,"__vagrantfile":true}}}
