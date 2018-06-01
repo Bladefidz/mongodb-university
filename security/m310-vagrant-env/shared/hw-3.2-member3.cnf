@@ -1,0 +1,19 @@
+net:
+  bindIp: database.m310.mongodb.university
+  port: 31322
+storage:
+   dbPath: /home/vagrant/M310-HW-3.2/r2
+systemLog:
+  destination: file
+  path: /home/vagrant/M310-HW-3.2/r2/mongo.log
+  logAppend: true
+auditLog:
+   destination: file
+   format: JSON
+   path: /home/vagrant/M310-HW-3.2/r2/auditLog.json
+   filter: '{ users: { user: "steve", db: "" } }'
+setParameter: { auditAuthorizationSuccess: true }
+processManagement:
+  fork: true
+replication:
+  replSetName: auditing-repl

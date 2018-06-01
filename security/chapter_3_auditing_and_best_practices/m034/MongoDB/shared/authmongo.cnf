@@ -1,0 +1,15 @@
+systemLog:
+  destination: file
+  path: /home/vagrant/data/authdb/log
+processManagement:
+  fork: true
+net:
+  port: 27000
+  ssl:
+    mode: requireSSL
+    PEMKeyFile: /shared/certs/server.pem
+    CAFile: /shared/certs/ca.pem
+storage:
+  dbPath: /home/vagrant/data/authdb
+security:
+  authorization: enabled

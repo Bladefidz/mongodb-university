@@ -1,0 +1,50 @@
+dn: ou=Users,dc=mongodb,dc=com
+ou: Users
+objectClass: organizationalUnit
+
+dn: ou=dba,dc=mongodb,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: dba
+
+dn: uid=alice,ou=Users,dc=mongodb,dc=com
+changetype: add
+objectclass: person
+objectclass: inetOrgPerson
+cn: alice
+sn: Alice
+uid: alice
+userPassword: secret
+
+dn: cn=admins,ou=Users,dc=mongodb,dc=com
+objectclass: groupOfNames
+cn: admins
+member: uid=alice,ou=Users,dc=mongodb,dc=com
+
+dn: uid=maria,ou=Users,dc=mongodb,dc=com
+changetype: add
+objectclass: person
+objectclass: inetOrgPerson
+cn: maria
+sn: Maria
+uid: maria
+userPassword: 4v3M4514
+
+dn: cn=writers,ou=Users,dc=mongodb,dc=com
+objectclass: groupOfNames
+cn: writers
+member: uid=maria,ou=Users,dc=mongodb,dc=com
+
+dn: uid=bob,ou=Users,dc=mongodb,dc=com
+changetype: add
+objectclass: person
+objectclass: inetOrgPerson
+cn: bob
+sn: Bob
+uid: bob
+userPassword: n0t7ob3d12cl0u2ed
+
+dn: cn=readers,ou=Users,dc=mongodb,dc=com
+objectclass: groupOfNames
+cn: readers
+member: uid=bob,ou=Users,dc=mongodb,dc=com

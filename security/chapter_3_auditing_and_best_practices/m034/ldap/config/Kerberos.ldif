@@ -1,0 +1,9 @@
+dn: uid=bob,ou=dba,dc=example,dc=com
+objectclass: krbPrincipalAux
+objectclass: person
+objectclass: inetOrgPerson
+cn: bob
+cn: Bob
+uid: bob
+userPassword: secret2
+krbPrincipalName: bob@DBA
