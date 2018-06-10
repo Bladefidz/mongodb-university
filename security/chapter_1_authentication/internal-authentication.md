@@ -60,7 +60,7 @@ db.getSiblingDB("$external").runCommand({createUser: "C=US,ST=New York,L=New Yor
 *Note* that we used `$external` since all credential meta data stored in external database defined in `server.pem`
 7. Add shards with hostname defined in `server.pem`. To find issued hostname, execute:
 ```
-openssl x509 -in m310-certs/server.pem -text
+openssl x509 -in m310-certs/server.pem -nameopt RFC2253 -text
 ```
 8. Kill all `mongod` processes.
 9. Start all **preconfigured replica set members** with `ssl` option:
