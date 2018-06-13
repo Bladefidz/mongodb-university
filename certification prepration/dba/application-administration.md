@@ -1,0 +1,33 @@
+## Application Administration
+
+- Seeing current operations:
+	- Any operations: `db.currentOp()`
+	- Specific operations: `db.currentOp({'ns': 'prod.users'})`
+	- Find slow operations: `db.currentOp({'active': true, 'secs_running': { '$gt': 3 }, 'ns': /^db1\./})`
+- Killing operation given by `opid`: `db.killOp(123)`
+- Use write acknowledgment `{w: 'majority'}` to prevent *phantom writes*, any undesired writes that executed unexpectedly.
+- **System profiler** can be used to find slow operations and hotspot analysis at anytime:
+	- Profiling levels:
+		- 0: Off.
+		- 1: Collect all operations that take longer than the value of `slowms`.
+		- 2: Collect everything.
+	- Set profiling level: `db.setProfilingLevel(2)`.
+	- Show all profiled operations: `db.system.profile.find().pretty()`
+	- Set profiling with milliseconds threshold, i.e 500 ms: `db.setProfilingLevel(1, 500)`
+	- For command line: `mongod --profile <level> --slowms <time>`
+- Get the size of a document in bytes:
+	- Specify `ObjectId`: `Object.bsonsize({_id: ObjectId()})`
+	- Specify document: `Object.bsonsize(db.users.findOne())`
+- Seeing information about a whole collection: `db.boards.stats()`:
+	- To specify scaling factors, i.e in TeraBytes: `db.boards.stats(1024*1024*1024*1024)`
+- Seeing information about a whole database: `db.stats()`.
+- **mongotop** gives overview of which collections are busiest.
+	- Return every second: `mongotop`.
+	- Return every 15 seconds: `mongotop 15`
+- **mongostat** gives server-wide information.
+	- Return in 1 second period: `mongostat`
+	- Return data every second for 20 seconds: `mongostat --rowcount 20 1`
+	- Return data every 5 minutes: `mongostat --rowcount 0 300`
+	- Return data every 5 minutes for an hour: `mongostat --rowcount 12 300`
+	- Add output fields: `mongostat -O 'host,version,network.numRequests=network requests'`
+	- Complete snapshot on replica set or cluster: `mongostat --discover`
