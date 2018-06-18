@@ -16,7 +16,7 @@ processId=$(ps -ef | grep mongod | grep primary | awk '{print $2}')
 # open logs file
 less /data/rs/p/mongod.log
 
-# fiter out all the CONTROL lines and timestamp for better reading
+# filter out all the CONTROL lines and timestamp for better reading
 cat /data/rs/p/mongod.log | grep -v 'CONTROL' | sed "s/[^ ]* //"
 
 # kill the server process
