@@ -52,6 +52,11 @@ This is repository contains almost all course materials in [MongoDB University](
 * [Server diagnostic tools](diagnostics-and-debugging/chapter_2_tooling_overview/server_diagnostic_tools.md)
 * [Profiler](diagnostics-and-debugging/chapter_2_tooling_overview/profiler.md)
 * [Index statistics](diagnostics-and-debugging/chapter_2_tooling_overview/indexStats.md)
+* [Response time degradation](diagnostics-and-debugging/chapter_3_slow_queries/response_time_degradation.md)
+* [Throughput drops](diagnostics-and-debugging/chapter_3_slow_queries/throughput_drops.md)
+* [Impact of application changes](diagnostics-and-debugging/chapter_3_slow_queries/impact-of-application-changes.md)
+* [Slow queries](diagnostics-and-debugging/chapter_3_slow_queries/slow-queries.md)
+* [Fixing missing index](diagnostics-and-debugging/chapter_3_slow_queries/fixing_missing_indexes.md)
 
 
 ## Basic Cluster Administration
