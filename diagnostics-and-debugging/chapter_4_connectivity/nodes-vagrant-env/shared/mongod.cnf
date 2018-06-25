@@ -1,0 +1,13 @@
+net:
+  port: 27017
+processManagement:
+  fork: true
+systemLog:
+  destination: "file"
+  path: "/home/vagrant/data/log"
+  logAppend: true
+storage:
+  dbPath: /home/vagrant/data
+replication:
+  oplogSizeMB: 10
+  replSetName: "M312"

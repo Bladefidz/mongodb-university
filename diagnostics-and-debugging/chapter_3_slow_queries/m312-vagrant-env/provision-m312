@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#
+# Bash script for provisioning the MongoDB instances
+
+set -e
+set -x
+
+function config(){
+  export CLIENT_IP_ADDR=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | tail -1`
+  export CLIENT_FQDN=`hostname`
+  export CLIENT_NAME=`hostname | cut -d. -f 1 | tr '[:upper:]' '[:lower:]'`
+  echo "Configuring /etc/hosts ..."
+  echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4" > /etc/hosts
+  echo "::1       localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /etc/hosts
+  echo "$CLIENT_IP_ADDR    $CLIENT_FQDN $CLIENT_NAME" >> /etc/hosts
+}
+
+function install_mongod(){
+  echo "Install MongoDB Enterprise"
+  wget -q -O mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2.tgz https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2.tgz?jmp=university
+  tar xvf mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2.tgz
+  sudo mv -f mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2/bin/* /usr/bin
+  rm -r mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2/
+  rm mongodb-linux-x86_64-enterprise-ubuntu1404-3.4.2.tgz
+
+  sudo sh -c "killall mongod; true"
+  sudo sh -c "sudo su;"
+  mkdir -p /data
+  chmod -R 777 /data
+  chown -R vagrant:vagrant /data
+  sudo sh -c "exit;"
+  mkdir -p /data/db
+  mkdir -p /home/vagrant/data
+  chmod -R 777 /home/vagrant/data
+  mkdir -p /home/vagrant/data/authdb
+  echo "Set LC_ALL=C to .profile"
+  sudo echo "export LC_ALL=C" >> /home/vagrant/.profile
+}
+
+
+function install_python_dependencies(){
+    sudo apt-get install -y python-dev
+    sudo apt-get install -y python-pip
+    sudo pip install pymongo
+    sudo pip install docopt
+    sudo pip install faker
+    sudo pip install psutil
+    sudo pip install mtools
+}
+
+function update_repo(){
+  echo "Install MongoDB Enterprise Repository"
+  echo "deb http://repo.mongodb.com/apt/ubuntu "$(lsb_release -sc)"/mongodb-enterprise/3.3 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+  echo "Update Repositoryies"
+  sudo apt-get update -y
+  echo "Installing MongoDB Enterprise Dependencies"
+  sudo apt-get install -y libgssapi-krb5-2 libsasl2-2 libssl1.0.0 libstdc++6 snmp
+}
+
+
+function config(){
+  sudo su
+  # disable THP
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/enabled
+  echo -e "never" > /sys/kernel/mm/transparent_hugepage/defrag
+  # disable mongod upstart service
+  echo 'manual' | sudo tee /etc/init/mongod.override
+}
+
+
+config
+update_repo
+install_mongod
+install_python_dependencies
+echo "DONE"
