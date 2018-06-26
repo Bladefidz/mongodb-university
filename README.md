@@ -57,6 +57,9 @@ This is repository contains almost all course materials in [MongoDB University](
 * [Impact of application changes](diagnostics-and-debugging/chapter_3_slow_queries/impact-of-application-changes.md)
 * [Slow queries](diagnostics-and-debugging/chapter_3_slow_queries/slow-queries.md)
 * [Fixing missing index](diagnostics-and-debugging/chapter_3_slow_queries/fixing_missing_indexes.md)
+* [Connection timeout](diagnostics-and-debugging/chapter_4_connectivity/connection-timeout.md)
+* [Connectivity](diagnostics-and-debugging/chapter_4_connectivity/connectivity.md)
+* [Sharding issues](diagnostics-and-debugging/chapter_4_connectivity/sharding-issues.md)
 
 
 ## Basic Cluster Administration
