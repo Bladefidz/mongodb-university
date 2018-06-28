@@ -60,6 +60,7 @@ This is repository contains almost all course materials in [MongoDB University](
 * [Connection timeout](diagnostics-and-debugging/chapter_4_connectivity/connection-timeout.md)
 * [Connectivity](diagnostics-and-debugging/chapter_4_connectivity/connectivity.md)
 * [Sharding issues](diagnostics-and-debugging/chapter_4_connectivity/sharding-issues.md)
+* [Schema investigation](diagnostics-and-debugging/chapter_5_schema_issues/schema-investigation.md)
 
 
 ## Basic Cluster Administration
